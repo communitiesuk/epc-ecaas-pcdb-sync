@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      # update nodejs to version 22
+      - n 22
+
+  build:
+    commands:
+      - node -v
+      - npm -v
+      - npm ci
+      - npm run build
+      - cd dist
+      - zip -r pcdb-sync-lambda.zip .
+
+  post_build:
+    commands:
+      - echo "Running post_build commands"
+
+artifacts:
+  files:
+    - dist/pcdb-sync-lambda.zip
