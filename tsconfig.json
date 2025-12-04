@@ -1,0 +1,22 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+	/* Base Options */
+	"skipLibCheck": true,
+	"target": "esnext",
+	"resolveJsonModule": true,
+	"moduleDetection": "force",
+	"isolatedModules": true,
+	"verbatimModuleSyntax": true,
+
+	/* Strictness */
+	"strict": true,
+	"noUncheckedIndexedAccess": true,
+	"noImplicitOverride": true,
+
+	/* Transpiling */
+	"module": "nodenext",
+    "outDir": "./dist",
+    "sourceMap": true
+  }
+}
