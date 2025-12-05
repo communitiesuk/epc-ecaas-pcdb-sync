@@ -1,6 +1,6 @@
 import { BatchWriteItemCommand, DynamoDBClient, ScanCommand, type AttributeValue } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { batchItems } from "./utils/batch_items";
+import { batchItems } from "./utils/batch_items.js";
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);

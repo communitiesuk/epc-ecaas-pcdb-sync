@@ -1,5 +1,5 @@
-import { clearProducts } from "./clear_products";
-import { importProducts } from "./import_products";
+import { clearProducts } from "./clear_products.js";
+import { importProducts } from "./import_products.js";
 
 export const handler = async () => {
 	await clearProducts();

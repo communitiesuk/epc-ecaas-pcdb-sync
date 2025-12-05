@@ -1,5 +1,5 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { importAirSourceHeatPumps } from "./product-types/air_source_heat_pumps";
+import { importAirSourceHeatPumps } from "./product-types/air_source_heat_pumps.js";
 
 const readFile = async (fileName: string) => {
 	console.log(`Reading data from ${fileName}`);

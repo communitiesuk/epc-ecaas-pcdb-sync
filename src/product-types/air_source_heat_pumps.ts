@@ -1,4 +1,4 @@
-import { batchItems } from "../utils/batch_items";
+import { batchItems } from "../utils/batch_items.js";
 import { BatchWriteItemCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import type { BreAirSourceHeatPumpData, BreAirSourceHeatPumpTestData, BreResponse } from "../pcdb.types.ts";
