@@ -24,4 +24,4 @@ phases:
 
 artifacts:
   files:
-    - dist/pcdb-sync-lambda.zip
+    - dist/src/pcdb-sync-lambda.zip
