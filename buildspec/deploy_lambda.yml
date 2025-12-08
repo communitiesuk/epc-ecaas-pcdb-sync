@@ -5,8 +5,8 @@ phases:
     commands:
       - bash ./scripts/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server ci_server
       - export AWS_PROFILE=ci_server
-      - ls -al $CODEBUILD_SRC_DIR
-      - aws lambda update-function-code --function-name pcdb_sync_lambda --zip-file fileb://$CODEBUILD_SRC_DIR/dist/src/pcdb-sync-lambda.zip
+      - ls -al $CODEBUILD_SRC_DIR_build_pcdb_sync_output
+      - aws lambda update-function-code --function-name pcdb_sync_lambda --zip-file fileb://$CODEBUILD_SRC_DIR_build_pcdb_sync_output/dist/src/pcdb-sync-lambda.zip
   post_build:
     commands:
       - echo "Running post_build commands"
