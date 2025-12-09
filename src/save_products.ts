@@ -53,7 +53,7 @@ const saveProductType = async (productsResponse: BreResponse) => {
 				RequestItems: {
 					"products": batch.map(x => {
 						const data = keysToCamelCase(x);
-						const productTestData = testData.filter(td => td.productID === x.id);
+						const productTestData = testData.filter(td => td.productID === data.id);
 
 						data["testData"] = productTestData.map(td => keysToCamelCase(td));
 
