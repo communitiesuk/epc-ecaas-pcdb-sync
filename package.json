@@ -3,8 +3,9 @@
   "private": "true",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "dev": "NODE_ENV=development tsx ./src/import_local.ts"
+	"init": "aws dynamodb create-table --cli-input-json file://schema.json --endpoint-url http://localhost:8000",
+	"dev": "NODE_ENV=development tsx ./src/import_local.ts",
+    "build": "tsc"
   },
   "engines": {
     "node": "^22.17.1"
