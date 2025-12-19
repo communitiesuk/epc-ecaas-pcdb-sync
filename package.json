@@ -1,5 +1,5 @@
 {
-  "name": "epc-ecaas-pcdb-sync",
+  "name": "epb-ecaas-pcdb-sync",
   "private": "true",
   "type": "module",
   "scripts": {
