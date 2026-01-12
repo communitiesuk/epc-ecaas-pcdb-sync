@@ -4,7 +4,7 @@ import { readFile } from "fs/promises";
 
 export const importProducts = async (filePath: string) => {
 	const file = await readFile(filePath, 'utf-8');
-	const products = JSON.parse(file) as BreResponse[];
+	const response = JSON.parse(file) as BreResponse;
 
-	await saveProducts(products);
+	await saveProducts(response);
 }

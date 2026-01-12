@@ -1,5 +1,6 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { saveProducts } from "./save_products.js";
+import type { BreResponse } from "./pcdb.types.js";
 
 const readFile = async (fileName: string) => {
 	console.log(`Reading data from ${fileName}`);
@@ -25,7 +26,7 @@ const readFile = async (fileName: string) => {
 
 export const importProducts = async (fileName: string) => {
     const data = await readFile(fileName);
-    const products = data ? JSON.parse(data) : [];
+	const response = data ? JSON.parse(data) as BreResponse : undefined;
 
-    await saveProducts(products);
+    await saveProducts(response);
 };

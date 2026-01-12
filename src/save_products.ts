@@ -1,7 +1,7 @@
 import { batchItems } from "./utils/batch_items.js";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { BatchWriteCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { type BreResponse, type ProductData, type ProductTestData } from "./pcdb.types.js";
+import { type BreResponse, type BreProduct, type ProductData } from "./pcdb.types.js";
 import { keysToCamelCase } from "./utils/objects.js";
 
 const localDynamoDBConfig = {
@@ -16,23 +16,27 @@ const localDynamoDBConfig = {
 const client = new DynamoDBClient(process.env.NODE_ENV === "development" ? localDynamoDBConfig : {});
 const docClient = DynamoDBDocumentClient.from(client);
 
-export const saveProducts = async (data: BreResponse[]) => {
+export const saveProducts = async (response: BreResponse | undefined) => {
 	console.log("Save products");
 
-	for (const productType of data) {
+	if (!response) {
+		console.log('No products to save');
+		return;
+	}
+
+	for (const productType of response.productTypes) {
 		try {
 			await saveProductType(productType);
 		}
 		catch (err: unknown) {
-			console.error(`Error writing ${productType.productType} data to DynamoDB`, err);
+			console.error(`Error writing ${productType.productTypeName} data to DynamoDB`, err);
 			break;
 		}
 	}
 }
 
-const saveProductType = async (productsResponse: BreResponse) => {
-	const products = (productsResponse?.data ?? []) as ProductData[];
-	const testData = (productsResponse?.TestData ?? []) as ProductTestData[];
+const saveProductType = async (productsResponse: BreProduct) => {
+	const products = (productsResponse?.data ?? []) as Record<string, unknown>[];
 
 	const batchedProducts = batchItems(products);
 	let completedBatches = 0;
@@ -57,18 +61,16 @@ const saveProductType = async (productsResponse: BreResponse) => {
 						const item: ProductData = {
 							...data,
 							id: (data.id ?? data.productID) as string,
-							brandName: (data.brand ?? data.brandName ?? "") as string,
+							brandName: (data.brandName ?? "") as string,
 							modelName: (data.modelName ?? "") as string,
-							technologyType: productsResponse.productType.trim().toLowerCase(),
+							technologyType: productsResponse.productType.trim(),
 						};
-
-						const productTestData = testData.filter(td => td.productID === data.id);
 
 						return {
 							PutRequest: {
 								Item: {
 									...item,
-									testData: productTestData.map(td => keysToCamelCase(td)),
+									testData: Array.isArray(data.testData) ? data.testData.map(td => keysToCamelCase(td)) : [],
 									"sk-by-brand": `${item.brandName.toLowerCase()}#${item.modelName.toLowerCase()}#${item.modelQualifier?.toLowerCase() ?? ""}`,
 									"sk-by-model": `${item.modelName.toLowerCase()}#${item.modelQualifier?.toLowerCase() ?? ""}`,
 								}
